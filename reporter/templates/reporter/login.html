@@ -1,0 +1,20 @@
+{% load static %}
+
+{% block content %}
+    <nav>
+        <h1>Login</h1>
+    </nav>
+    <main>
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- Render the login form -->
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{% url 'reporter:register' %}">Register here</a></p>
+        <p>You can log in using your generated username or your email.</p>
+    </main>
+    <link rel="stylesheet" href="{% static 'style.css' %}"> <!-- Link to your CSS file -->
+{% endblock content %}

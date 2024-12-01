@@ -1,11 +1,9 @@
 <h1>
-    <a href="{% url "reporter:index" %}">Reporter App</a>
-    <a href="{% url "reporter:reports" %}">All Reports</a>
-    <a href="{% url "reporter:map_view" %}">Map view</a>
+    <a class="small-link" href="{% url "reporter:index" %}">Reporter App</a>
+    <a class="small-link" href="{% url "reporter:reports" %}">All Reports</a>
+    <a class="small-link" href="{% url "reporter:map_view" %}">Map View</a>
     {% load static %}
     <link rel="stylesheet" href="{%static 'style.css'%}">
 
-</h1>
 
-
-{% block content %}{% endblock content %}
+    {% block content %}{% endblock content %}

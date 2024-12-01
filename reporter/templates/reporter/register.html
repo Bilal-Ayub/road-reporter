@@ -1,0 +1,14 @@
+{% load static %}
+
+{% block content %}
+    <h2>Register</h2>
+    {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Render the registration form -->
+        <button type="submit">Register</button>
+    </form>
+    <link rel="stylesheet" href="{% static 'style.css' %}"> <!-- Link to your CSS file -->
+{% endblock content %}

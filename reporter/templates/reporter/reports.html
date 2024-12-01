@@ -2,22 +2,21 @@
 
 {% block content %}
 
-    <h2>Reports</h2>
+    <h2>All Reports</h2>
+    <br>
     <ul>
         {% for report in reports %}
-            <section>
                 <li>
                     <img
                         class="banner"
                         src="{{report.image.url}}"
-                        alt="report image"
-                    />
-                    <p>{{report.report_type}}</p>
+                        alt="report image"/>
+                    <p>{{report.get_report_type_display}}</p>
                     <p>Coordinates: {{report.location_lat}}, {{report.location_lon}}</p>
                     <p>Reported on: {{report.reported_at}}</p>
-                    <p>Description: {{report.report_description | linebreaks}}</p>
+                    <p>Description: {{report.report_description}}</p>
                 </li>
-            </section>
+                <br>
         {% empty %}
             <li>No reports have been reported yet</li>
         {% endfor %}

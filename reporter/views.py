@@ -1,11 +1,16 @@
 from django.shortcuts import render, redirect
 from .models import Report
 from .forms import ReportForm
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import authenticate
+from .forms import LoginForm, ReportForm, LoginForm, RegistrationForm
+from django.contrib.auth import authenticate, login as auth_login
+from django.contrib import messages
 import folium
+import logging
 
 # Create your views here.
 def index(request):
-
     return render(request, 'reporter/index.html')
 
 def map_view(request):
@@ -26,8 +31,11 @@ def map_view(request):
 def reports(request):
     """Show all reports."""
     reports = Report.objects.order_by('reported_at')
+    data = []
+
     context = {'reports': reports}
     return render(request, 'reporter/reports.html', context)
+
 
 def new_report(request):
     """Add a new report"""
@@ -44,3 +52,33 @@ def new_report(request):
     # Display a blank or invalid form.
     context = {'form':form}
     return render(request, 'reporter/new_report.html', context)
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                return redirect('reporter:reports')  # Redirect to the reports page after login
+    else:
+        form = LoginForm()
+    return render(request, 'reporter/login.html', {'form': form})
+
+logger = logging.getLogger(__name__)
+
+from django.contrib import messages
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # Save the new user
+            # Generate a success message with the username
+            messages.success(request, f'Account created successfully! Your username is: {user.username}')
+            return redirect('reporter:login')  # Redirect to login after registration
+    else:
+        form = RegistrationForm()
+    return render(request, 'reporter/register.html', {'form': form})
