@@ -2,24 +2,22 @@
 
 {% block content %}
 
-    <h2>All Reports</h2>
-    <br>
-    <ul>
-        {% for report in reports %}
-                <li>
-                    <img
-                        class="banner"
-                        src="{{report.image.url}}"
-                        alt="report image"/>
-                    <p>{{report.get_report_type_display}}</p>
-                    <p>Coordinates: {{report.location_lat}}, {{report.location_lon}}</p>
-                    <p>Reported on: {{report.reported_at}}</p>
-                    <p>Description: {{report.report_description}}</p>
-                </li>
-                <br>
-        {% empty %}
-            <li>No reports have been reported yet</li>
-        {% endfor %}
-    </ul>
+<h2>All Reports</h2>
+<br>
+<ul>
+    {% for report in reports %}
+        <li>
+            <img class="banner" src="{{ report.image.url }}" alt="report image"/>
+            <p>{{ report.get_report_type_display }}</p>
+            <p>Coordinates: {{ report.location_lat }}, {{ report.location_lon }}</p>
+            <p>Reported on: {{ report.reported_at }}</p>
+            <p>Description: {{ report.report_description }}</p>
+            <p>Priority: {{ report.priority }}</p> <!-- Display the priority -->
+        </li>
+        <br>
+    {% empty %}
+        <li>No reports have been reported yet</li>
+    {% endfor %}
+</ul>
 
 {% endblock content %}

@@ -2,12 +2,12 @@
 
 {% block content %}
 
-    <p>Add a new report:</p>
-    <form class="form-with-validation"action="{% url 'reporter:new_report' %}" method='post' enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form.as_div}}
-        <button class="form-submit" name='submit'>Add Report</button>
-    </form>
+<p>Add a new report:</p>
+<form class="form-with-validation" action="{% url 'reporter:new_report' %}" method='post' enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_div }}
+
+    <button class="form-submit" name='submit'>Add Report</button>
+</form>
 
 {% endblock content %}
-

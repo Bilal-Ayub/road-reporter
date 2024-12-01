@@ -28,12 +28,32 @@ def map_view(request):
     context = {'map': my_map._repr_html_()}
     return render(request, 'reporter/map_view.html', context)
 
-def reports(request):
-    """Show all reports."""
-    reports = Report.objects.order_by('reported_at')
-    data = []
+def recursive_sort(reports):
+    # Base case: if the list is empty or has one element, it's already sorted
+    if len(reports) <= 1:
+        return reports
 
-    context = {'reports': reports}
+    # Choose the pivot (here we take the first element)
+    pivot = reports[0]
+    less_than_pivot = []
+    greater_than_pivot = []
+
+    # Recursive case: separate reports into two lists
+    for report in reports[1:]:
+        if report.priority < pivot.priority:
+            less_than_pivot.append(report)
+        else:
+            greater_than_pivot.append(report)
+
+    # Combine the sorted lists
+    return recursive_sort(less_than_pivot) + [pivot] + recursive_sort(greater_than_pivot)
+
+def reports(request):
+    """Show all reports sorted by priority."""
+    reports = Report.objects.all()
+    sorted_reports = recursive_sort(list(reports))  # Sort reports using recursion
+
+    context = {'reports': sorted_reports}
     return render(request, 'reporter/reports.html', context)
 
 
@@ -49,8 +69,11 @@ def new_report(request):
             form.save()
             return redirect('reporter:reports')
 
+    # Create a list of priorities
+    priorities = list(range(1, 11))  # Generates [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
     # Display a blank or invalid form.
-    context = {'form':form}
+    context = {'form': form, 'priorities': priorities}
     return render(request, 'reporter/new_report.html', context)
 
 def login_view(request):

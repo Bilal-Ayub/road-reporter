@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
-        fields = ['report_type', 'report_description', 'location_lat', 'location_lon', 'is_resolved', 'image']
+        fields = ['report_type', 'report_description', 'location_lat', 'location_lon', 'image', 'priority']
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label='Username', max_length=150)

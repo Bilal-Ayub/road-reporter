@@ -21,6 +21,7 @@ class Report(models.Model):
     reported_at = models.DateTimeField(auto_now_add=True, help_text="Date and time when the report was created")
     is_resolved = models.BooleanField(default=False, help_text="Status of the report: Resolved or Not")
     image = models.ImageField(default='fallback.png', blank=True, help_text="Upload an image of the issue")
+    priority = models.IntegerField(default=1, choices=[(i, str(i)) for i in range(1, 11)], help_text="Priority of the report (1-10)")
 
     class Meta:
         verbose_name_plural = 'Reports'
