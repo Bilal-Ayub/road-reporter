@@ -48,6 +48,44 @@ def recursive_sort(reports):
     # Combine the sorted lists
     return recursive_sort(less_than_pivot) + [pivot] + recursive_sort(greater_than_pivot)
 
+def paginate_reports(request):
+    reports = Report.objects.all()
+    page_size = 5  # Number of reports per page
+    total_reports = reports.count()
+    page_number = int(request.GET.get('page', 1))
+    start_index = (page_number - 1) * page_size
+
+    # Create a list to hold the paginated reports
+    paginated_reports = []
+
+    # Initialize a counter for the current index
+    index = start_index
+
+    # Use a for loop to iterate over the reports starting from start_index
+    for _ in range(start_index, total_reports):
+        # Use a while loop to add reports to the paginated list
+        while len(paginated_reports) < page_size and index < total_reports:
+            paginated_reports.append(reports[index])
+            index += 1  # Move to the next report
+
+        # Break the for loop once we have enough reports for the page
+        if len(paginated_reports) >= page_size:
+            break
+
+    # Sort the paginated reports using the recursive_sort function
+    sorted_paginated_reports = recursive_sort(paginated_reports)
+
+    # Calculate total pages
+    total_pages = (total_reports // page_size) + (1 if total_reports % page_size > 0 else 0)
+
+    # Render the paginated reports in the template
+    context = {
+        'reports': sorted_paginated_reports,  # Use sorted reports
+        'current_page': page_number,
+        'total_pages': total_pages,
+    }
+    return render(request, 'reporter/paginated_reports.html', context)
+
 def reports(request):
     """Show all reports sorted by priority."""
     reports = Report.objects.all()

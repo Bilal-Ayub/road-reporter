@@ -10,4 +10,5 @@ urlpatterns = [
     path('reports/', views.reports, name='reports'),
     path('new_report/', views.new_report, name='new_report'),
     path('map_view/', views.map_view, name='map_view'),
+    path('paginated_reports/', views.paginate_reports, name='paginated_reports'),
 ]
