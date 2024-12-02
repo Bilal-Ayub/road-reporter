@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import new_report, index
 
 app_name = 'reporter'
 urlpatterns = [

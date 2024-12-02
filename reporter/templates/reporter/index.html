@@ -1,4 +1,96 @@
-{% extends "reporter/base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    body {
+        background-color: #000; /* Black background */
+        color: #fff; /* White text color */
+    }
+    .header {
+        background-color: #28a745; /* Green color for the header */
+        padding: 20px;
+        text-align: center;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .card {
+        background-color: #333; /* Dark background for cards */
+        border: none; /* No border */
+        border-radius: 5px; /* Rounded corners */
+        height: 100%; /* Make cards take full height of the column */
+    }
+    .card-header {
+        background-color: #444; /* Slightly lighter background for card header */
+        color: #fff; /* White text color */
+    }
+    .card-body {
+        color: #fff; /* White text color */
+        display: flex; /* Use flexbox for alignment */
+        flex-direction: column; /* Stack items vertically */
+        justify-content: space-between; /* Space items evenly */
+        height: 200px; /* Fixed height for card body */
+    }
+    .btn-primary {
+        background-color: #28a745; /* Bootstrap primary button color changed to green */
+        border-color: #28a745; /* Button border color changed to green */
+    }
+    .btn-primary:hover {
+        background-color: #218838; /* Darker shade of green on hover */
+        border-color: #1e7e34; /* Darker border on hover */
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="header">
+        <h1>Welcome to Road Reporter, {{user.username}}!👋</h1>
+        <p>Your one-stop solution for reporting!</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Report an Issue</h5>
+                </div>
+                <div class="card-body">
+                    <p>Submit a new report about any issues you encounter.</p>
+                    <a href="{% url 'reporter:new_report' %}" class="btn btn-primary">New Report</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>View Reports</h5>
+                </div>
+                <div class="card-body">
+                    <p>Check the status of your reports and others.</p>
+                    <a href="{% url 'reporter:paginated_reports' %}" class="btn btn-primary">View Reports</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Map View</h5>
+                </div>
+                <div class="card-body">
+                    <p>Explore reports on the map for better insights.</p>
+                    <a href="{% url 'reporter:map_view' %}" class="btn btn-primary">Map View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %} <a href="{% url 'return' %}">
+    <button>Go to Return Page</button> {% endcomment %}
+</a>
+
+{% endblock content %}
+
+{% comment %} {% extends "reporter/base.html" %}
 
 
 {% block content %}
@@ -6,4 +98,4 @@
 <p class="spaced-paragraph">Helps you report road hazards to relevant authorites</p>
 
 <a class="small-link" href="{% url "reporter:new_report" %}">Add a new report</a>
-{% endblock content %}
+{% endblock content %} {% endcomment %}

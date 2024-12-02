@@ -1,4 +1,65 @@
 {% load static %}
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    body {
+        background-color: #000; /* Black background */
+        color: #fff; /* White text color */
+    }
+    .form-control {
+        background-color: #333; /* Dark background for input fields */
+        color: #fff; /* White text color for input fields */
+    }
+    .form-control:focus {
+        background-color: #444; /* Slightly lighter background on focus */
+        color: #fff; /* White text color on focus */
+        border-color: #007bff; /* Bootstrap primary border color */
+    }
+    .btn-primary {
+        background-color: #007bff; /* Bootstrap primary button color */
+        border-color: #007bff; /* Button border color */
+    }
+</style>
+
+<div class="container h-100">
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col-md-4">
+            <h2 class="text-center mb-4">Login</h2>
+
+            {% for message in messages %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+
+            {% if username %}
+                <div class="alert alert-info">
+                    Welcome back, {{ username }}! Please log in.
+                </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            <div class="text-center mt-3">
+                <p>Don't have an account? <a href="{% url 'reporter:register' %}" class="text-info">Register here</a></p> <!-- Link to registration page -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% comment %}
+
+{% load static %}
 
 {% block content %}
     <nav>
@@ -17,4 +78,4 @@
         <p>You can log in using your generated username or your email.</p>
     </main>
     <link rel="stylesheet" href="{% static 'style.css' %}"> <!-- Link to your CSS file -->
-{% endblock content %}
+{% endblock content %} {% endcomment %}

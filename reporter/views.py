@@ -49,38 +49,33 @@ def recursive_sort(reports):
     return recursive_sort(less_than_pivot) + [pivot] + recursive_sort(greater_than_pivot)
 
 def paginate_reports(request):
-    reports = Report.objects.all()
+    reports = Report.objects.all()  # Get all reports
+    sorted_reports = recursive_sort(list(reports))  # Sort all reports at once
     page_size = 5  # Number of reports per page
-    total_reports = reports.count()
+    total_reports = len(sorted_reports)  # Use the sorted list's length
     page_number = int(request.GET.get('page', 1))
     start_index = (page_number - 1) * page_size
 
     # Create a list to hold the paginated reports
     paginated_reports = []
 
-    # Initialize a counter for the current index
+    # Use a while loop to iterate over the sorted reports
     index = start_index
-
-    # Use a for loop to iterate over the reports starting from start_index
-    for _ in range(start_index, total_reports):
-        # Use a while loop to add reports to the paginated list
-        while len(paginated_reports) < page_size and index < total_reports:
-            paginated_reports.append(reports[index])
-            index += 1  # Move to the next report
-
-        # Break the for loop once we have enough reports for the page
-        if len(paginated_reports) >= page_size:
-            break
-
-    # Sort the paginated reports using the recursive_sort function
-    sorted_paginated_reports = recursive_sort(paginated_reports)
+    while len(paginated_reports) < page_size and index < total_reports:
+        # Use a for loop to add reports to the paginated list
+        for _ in range(page_size):  # This will ensure we stay within the page size limit
+            if index < total_reports:
+                paginated_reports.append(sorted_reports[index])
+                index += 1  # Move to the next report
+            else:
+                break  # Break if there are no more reports
 
     # Calculate total pages
     total_pages = (total_reports // page_size) + (1 if total_reports % page_size > 0 else 0)
 
     # Render the paginated reports in the template
     context = {
-        'reports': sorted_paginated_reports,  # Use sorted reports
+        'reports': paginated_reports,  # Use the paginated reports
         'current_page': page_number,
         'total_pages': total_pages,
     }
@@ -105,7 +100,7 @@ def new_report(request):
         form = ReportForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('reporter:reports')
+            return redirect('reporter:index')
 
     # Create a list of priorities
     priorities = list(range(1, 11))  # Generates [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -123,7 +118,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 auth_login(request, user)
-                return redirect('reporter:reports')  # Redirect to the reports page after login
+                return redirect('reporter:index')  # Redirect to the index page after login
     else:
         form = LoginForm()
     return render(request, 'reporter/login.html', {'form': form})
@@ -143,3 +138,6 @@ def register_view(request):
     else:
         form = RegistrationForm()
     return render(request, 'reporter/register.html', {'form': form})
+
+
+#changes

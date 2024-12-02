@@ -8,6 +8,11 @@ class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
         fields = ['report_type', 'report_description', 'location_lat', 'location_lon', 'image', 'priority']
+        #new
+        # def __init__(self, *args, **kwargs):
+        #     super(ReportForm, self).__init__(*args, **kwargs)
+        #     for field in self.fields.values():
+        #         field.widget.attrs.update({'class': 'form-control'})  # Add the CSS class here
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label='Username', max_length=150)

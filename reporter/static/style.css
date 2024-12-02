@@ -66,8 +66,8 @@ a:hover {
     margin-top: 1rem;
 }
 #map-container {
-    width: 600px; /* Set the desired width */
-    height: 400px; /* Set the desired height */
+    width: 1200px; /* Set the desired width */
+    height: 800px; /* Set the desired height */
     margin: 0 auto; /* Center the map */
 }
 
